@@ -221,9 +221,9 @@ public class Logica {
     
     public boolean insertarMaterias(){        
         String consultaSQl = "";
-        consultaSQl = "insert into tblnotas(codCiclo,carnet,codMateria,nota1,nota2,nota3,promedio) ";
-        consultaSQl += "values('"+getCiclo()+"','"+getCarnet()+"','"+getCodMateria()+"',"+getNota1()+",";
-        consultaSQl += getNota2()+","+getNota3()+","+getPromedio()+")";
+        consultaSQl = "insert into tblnotas(codCiclo,codMateria,nombreMateria,nota1,nota2,nota3,promedio,carnet) ";
+        consultaSQl += "values('"+getCiclo()+"','"+getCodMateria()+"','"+getNombreMateria()+"',"+getNota1()+",";
+        consultaSQl += getNota2()+","+getNota3()+","+getPromedio()+",'"+getCarnet()+"')";
         Conexion objControlador = new Conexion();
         return objControlador.ejecutarConsultaSql(consultaSQl);
     }

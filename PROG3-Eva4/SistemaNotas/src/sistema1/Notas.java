@@ -9,6 +9,7 @@ import Controlador.Conexion;
 import Negocios.Logica;
 import java.sql.ResultSet;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -33,6 +34,7 @@ public class Notas extends javax.swing.JFrame {
         ResultSet rs=Logica.consultarCiclos();
         try
         {
+            combo.addElement("-Seleccione ciclo-");
             while(rs.next())
             {
               combo.addElement(rs.getString(1));
@@ -68,6 +70,18 @@ public class Notas extends javax.swing.JFrame {
             datos=null;
         }
     }
+    
+   boolean validarMateria(String cod)
+   {
+       for (int i = 0; i < tblDatos.getRowCount(); i++) {
+           if (tblDatos.getValueAt(i, 1).equals(cod)) {
+               return true;
+           }
+       }
+       return false;
+   }
+    
+   
     void Iniciar()
     {
         txtCodMateria.setEnabled(false);
@@ -79,6 +93,12 @@ public class Notas extends javax.swing.JFrame {
         tblDatos.setEnabled(false);
         btnBuscarMateria.setEnabled(false);
         cmbCiclo.setEnabled(false);
+        txtNombreEstudiante.setText("");
+        txtCarnet.setText("");
+        txtCarnet.setEnabled(true);
+        btnBuscarCarnet.setEnabled(true);
+        txtCarnet.requestFocus();
+        btnCancelar.setEnabled(false);
     }
     
     void MateriaValidada()
@@ -92,6 +112,23 @@ public class Notas extends javax.swing.JFrame {
         btnBuscarMateria.setEnabled(false);
     }
     
+    
+    boolean validarCiclo(JComboBox combo)
+    {
+        int n = tblDatos.getRowCount()+1;
+        switch (combo.getSelectedIndex())
+        {
+            case 1:
+                return n != 5;
+            case 2:
+                return n != 5;
+            case 3:
+                return n != 2;
+            default:
+                return true;
+        }
+    }
+    
     void CarnetValidado(){
         txtNota1.setEnabled(false);
         txtNota2.setEnabled(false);
@@ -99,6 +136,7 @@ public class Notas extends javax.swing.JFrame {
         btnAgregarMateria.setEnabled(false);
         btnBuscarMateria.setEnabled(true);
         cmbCiclo.setEnabled(true);
+        btnCancelar.setEnabled(true);
         
         txtCodMateria.setEnabled(true);
         txtNota1.setText("");
@@ -107,6 +145,7 @@ public class Notas extends javax.swing.JFrame {
         txtNombreMateria.setText("");
         txtCodMateria.setText("");
         txtCarnet.setEnabled(false);
+        txtNombreMateria.setText("");
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -135,6 +174,8 @@ public class Notas extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         cmbCiclo = new javax.swing.JComboBox<>();
         btnAgregarMateria = new javax.swing.JButton();
+        btnCancelar = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblDatos = new javax.swing.JTable();
 
@@ -225,8 +266,8 @@ public class Notas extends javax.swing.JFrame {
 
         jLabel7.setText("Nota 3 - 60%");
 
-        cmbCiclo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cmbCiclo.setToolTipText("ciclo");
+        cmbCiclo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-Seleccione-" }));
+        cmbCiclo.setToolTipText("Seleccione un ciclo");
 
         btnAgregarMateria.setText("Agregar");
         btnAgregarMateria.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +275,16 @@ public class Notas extends javax.swing.JFrame {
                 btnAgregarMateriaActionPerformed(evt);
             }
         });
+
+        btnCancelar.setText("Cancelar");
+        btnCancelar.setToolTipText("");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Ciclo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -243,35 +294,39 @@ public class Notas extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtCodMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnBuscarMateria)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(39, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cmbCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(txtCodMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnBuscarMateria)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                        .addComponent(cmbCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNota1)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(35, 35, 35)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNota2))
-                        .addGap(27, 27, 27)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNota3))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarMateria))))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNota1)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(35, 35, 35)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNota2))
+                                .addGap(27, 27, 27)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtNota3))
+                                .addGap(46, 46, 46)
+                                .addComponent(btnCancelar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnAgregarMateria))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(126, 126, 126)
+                                .addComponent(jLabel4)
+                                .addGap(182, 182, 182)
+                                .addComponent(jLabel8)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,28 +335,26 @@ public class Notas extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel4)
+                    .addComponent(jLabel8))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCodMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBuscarMateria)
+                    .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cmbCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtCodMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnBuscarMateria)
-                            .addComponent(txtNombreMateria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNota1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtNota2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnAgregarMateria)
-                        .addContainerGap())))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNota1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNota2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNota3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnCancelar)
+                    .addComponent(btnAgregarMateria))
+                .addGap(22, 22, 22))
         );
 
         tblDatos.setModel(new javax.swing.table.DefaultTableModel(
@@ -322,31 +375,34 @@ public class Notas extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(37, 37, 37)
+                .addGap(55, 55, 55)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(24, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel1)
-                                .addGap(139, 139, 139)
-                                .addComponent(jLabel2)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(txtCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(txtCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnBuscarCarnet)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtNombreEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(133, 133, 133)))
+                                .addGap(25, 25, 25)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombreEstudiante, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnGuardar)
-                            .addComponent(btnBuscar))))
-                .addGap(36, 36, 36))
+                            .addComponent(btnBuscar))
+                        .addGap(36, 36, 36))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,10 +424,10 @@ public class Notas extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBuscar)))
                 .addGap(30, 30, 30)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -385,9 +441,29 @@ public class Notas extends javax.swing.JFrame {
     
     private void btnBuscarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaActionPerformed
         logica.setCodMateria(txtCodMateria.getText());
+        String codigo = txtCodMateria.getText();
         if (logica.validarMateria()) {
-            txtNombreMateria.setText(logica.consultarMateria().toString());
-            MateriaValidada();
+            if (validarMateria(codigo)) {
+                JOptionPane.showMessageDialog(rootPane, "La materia ya está añadida en la tabla");
+                CarnetValidado();
+            }
+            else{
+                if (cmbCiclo.getSelectedIndex() == 0) {
+                    JOptionPane.showMessageDialog(rootPane, "Seleccione un ciclo para inscribir las materias");
+                    CarnetValidado();
+                }
+                else{
+                   if (validarCiclo(cmbCiclo)) {
+                       txtNombreMateria.setText(logica.consultarMateria().toString());
+                       MateriaValidada();
+                   }
+                   else{
+                       JOptionPane.showMessageDialog(rootPane, "No se pueden agregar más materias en el ciclo "+cmbCiclo.getSelectedItem().toString());
+                       CarnetValidado();
+                   }   
+                    
+                }
+            }
         }
         else{
             JOptionPane.showMessageDialog(rootPane, "El código de la materia no existe o está mal escrito");
@@ -397,18 +473,21 @@ public class Notas extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
        try{
-        
+      //consultaSQl = "insert into tblnotas(codCiclo,codMateria,nombreMateria,nota1,nota2,nota3,promedio,carnet) ";
             for (int i = 0; i < tblDatos.getRowCount(); i++) {
+                
                 logica.setCiclo(tblDatos.getValueAt(i, 0).toString());
-                logica.setCarnet(tblDatos.getValueAt(i, 1).toString());
-                logica.setCodMateria(tblDatos.getValueAt(i, 2).toString());
+                logica.setCodMateria(tblDatos.getValueAt(i, 1).toString());
+                logica.setNombreMateria(tblDatos.getValueAt(i, 2).toString());
                 logica.setNota1(Double.parseDouble(tblDatos.getValueAt(i, 3).toString()));
                 logica.setNota2(Double.parseDouble(tblDatos.getValueAt(i, 4).toString()));
                 logica.setNota3(Double.parseDouble(tblDatos.getValueAt(i, 5).toString()));
                 logica.setPromedio(Double.parseDouble(tblDatos.getValueAt(i, 6).toString()));
+                logica.setCarnet(txtCarnet.getText());
                 logica.insertarMaterias();
             }
             JOptionPane.showMessageDialog(rootPane, "Registro Insertado Exitosamente");
+            modelo.setNumRows(0);
             Iniciar();
             
         }
@@ -419,7 +498,7 @@ public class Notas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
     private void generarTabla()
     {
-        modelo.setNumRows(0);
+        //modelo.setNumRows(0);
         String ciclo,codMateria,materia;
         double nota1,nota2,nota3,promedio;
         ciclo=cmbCiclo.getSelectedItem().toString();
@@ -436,7 +515,7 @@ public class Notas extends javax.swing.JFrame {
         logica.setCarnet(txtCarnet.getText());
         if (logica.validarCarnet())
         {
-            txtNombreEstudiante.setText(logica.getNombre());
+            txtNombreEstudiante.setText(logica.consultarCarnet());
             CarnetValidado();
             
         }
@@ -449,13 +528,17 @@ public class Notas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarCarnetActionPerformed
 
     private void btnAgregarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMateriaActionPerformed
+        String codigo = txtCodMateria.getText();
         if(Validar()==true){
             
         }
         else
         {
+          
             generarTabla();
             LimpiarNotas();
+            CarnetValidado();
+            
         }
       
     }//GEN-LAST:event_btnAgregarMateriaActionPerformed
@@ -492,6 +575,13 @@ public class Notas extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNota3KeyTyped
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        Iniciar();
+        modelo.setNumRows(0);
+        txtNombreMateria.setText("");
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     void LimpiarNotas(){
         txtNota1.setText("");
@@ -568,6 +658,7 @@ public class Notas extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnBuscarCarnet;
     private javax.swing.JButton btnBuscarMateria;
+    private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cmbCiclo;
     private javax.swing.JLabel jLabel1;
@@ -577,6 +668,7 @@ public class Notas extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
