@@ -1,4 +1,4 @@
--- phpMyAdmin SQL Dump
+﻿-- phpMyAdmin SQL Dump
 -- version 4.7.0
 -- https://www.phpmyadmin.net/
 --
@@ -145,20 +145,3 @@ ALTER TABLE `tblnotas`
   ADD KEY `codCiclo` (`codCiclo`),
   ADD KEY `carnet` (`carnet`),
   ADD KEY `codMateria` (`codMateria`);
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `tblnotas`
---
-ALTER TABLE `tblnotas`
-  ADD CONSTRAINT `tblnotas_ibfk_1` FOREIGN KEY (`codCiclo`) REFERENCES `tblciclos` (`codCiclo`),
-  ADD CONSTRAINT `tblnotas_ibfk_2` FOREIGN KEY (`carnet`) REFERENCES `tblestudiantes` (`carnet`),
-  ADD CONSTRAINT `tblnotas_ibfk_3` FOREIGN KEY (`codMateria`) REFERENCES `tblmaterias` (`codMateria`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

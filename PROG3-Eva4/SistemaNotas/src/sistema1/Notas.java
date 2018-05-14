@@ -396,17 +396,26 @@ public class Notas extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        for (int i = 0; i < tblDatos.getRowCount(); i++) {
-            logica.setCiclo(tblDatos.getValueAt(i, 0).toString());
-            logica.setCarnet(tblDatos.getValueAt(i, 1).toString());
-            logica.setCodMateria(tblDatos.getValueAt(i, 2).toString());
-            logica.setNota1(Double.parseDouble(tblDatos.getValueAt(i, 3).toString()));
-            logica.setNota2(Double.parseDouble(tblDatos.getValueAt(i, 4).toString()));
-            logica.setNota3(Double.parseDouble(tblDatos.getValueAt(i, 5).toString()));
-            logica.setPromedio(Double.parseDouble(tblDatos.getValueAt(i, 6).toString()));
-        }
+       try{
         
-        Iniciar();
+            for (int i = 0; i < tblDatos.getRowCount(); i++) {
+                logica.setCiclo(tblDatos.getValueAt(i, 0).toString());
+                logica.setCarnet(tblDatos.getValueAt(i, 1).toString());
+                logica.setCodMateria(tblDatos.getValueAt(i, 2).toString());
+                logica.setNota1(Double.parseDouble(tblDatos.getValueAt(i, 3).toString()));
+                logica.setNota2(Double.parseDouble(tblDatos.getValueAt(i, 4).toString()));
+                logica.setNota3(Double.parseDouble(tblDatos.getValueAt(i, 5).toString()));
+                logica.setPromedio(Double.parseDouble(tblDatos.getValueAt(i, 6).toString()));
+                logica.insertarMaterias();
+            }
+            JOptionPane.showMessageDialog(rootPane, "Registro Insertado Exitosamente");
+            Iniciar();
+            
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(rootPane, "Error ingresando llos registros");
+            System.out.println(e.getMessage());
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
     private void generarTabla()
     {
