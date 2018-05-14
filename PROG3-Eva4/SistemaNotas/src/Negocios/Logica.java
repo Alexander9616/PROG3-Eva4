@@ -2,6 +2,7 @@ package Negocios;
 
 import Controlador.Conexion;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class Logica {
 
@@ -130,20 +131,21 @@ public class Logica {
      
      
      
-     public boolean validarCarnet(){        
+     public boolean validarCarnet()
+     {        
         String consultaSql = "select nombre from tblestudiantes where carnet = '" + getCarnet() + "'";
         boolean estado = false;
-        try {
+        try 
+        {
             Conexion objConexion = new Conexion();
             ResultSet objResultado = objConexion.consultaCarnet(consultaSql);
-            if(objResultado.next()){
-                setNombre(objResultado.getString(1).toString());
-                setCarnet(objResultado.getString(1).toString());
+            if(objResultado.next())
+            {
                 estado = true;
-                //objConexion.cerrarConexionMySql();
             }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
+        } catch (Exception e) 
+        {
+            System.out.println(e.getMessage()+"---here");
         }
         return estado;
     }
@@ -201,14 +203,14 @@ public class Logica {
     {
         Conexion conn=new Conexion();
         String consulta="SELECT n.codCiclo as Ciclo,m.codMateria as Cod_Materia,m.nombre as Materia ";
-                consulta +=",n.nota1,n.nota2,n.nota3,sum(n.nota1+n.nota2+n.nota3)/3 as Promedio ";
+                consulta +=",n.nota1,n.nota2,n.nota3,n.promedio ";
                 consulta +="from tblnotas as n inner join tblmaterias as m ";
                 consulta +="on n.codMateria=m.codMateria WHERE n.carnet='"+getCarnet()+"' and n.ciclo= '"+getCiclo()+"' ";
         ResultSet datos=null;
         try
         {
             datos=conn.consultaCarnet(consulta);
-            datos.next();
+            
         }
         catch(Exception ex)
         {
@@ -226,6 +228,21 @@ public class Logica {
         return objControlador.ejecutarConsultaSql(consultaSQl);
     }
     
+    public static ResultSet consultarCiclos()
+    {
+        Conexion con=new Conexion();
+        String consulta="select * from tblciclos";
+        ResultSet rs=null;
+       try
+       {
+            rs=con.consultaCarnet(consulta);
+       }
+       catch(Exception ex)
+       {
+
+       }
+        return rs;
+    }
     
     
     

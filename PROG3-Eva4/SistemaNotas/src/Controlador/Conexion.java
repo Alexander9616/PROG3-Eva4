@@ -53,7 +53,7 @@ public class Conexion {
             objResultado = ejecutaSentencia.executeQuery(consultaSql);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-        }        
+        } 
         return objResultado;
     }
 }

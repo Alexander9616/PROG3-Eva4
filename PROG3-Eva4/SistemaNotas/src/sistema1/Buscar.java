@@ -5,7 +5,9 @@
  */
 package sistema1;
 
-import java.awt.event.KeyEvent;
+import Negocios.Logica;
+import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 /**
@@ -14,12 +16,24 @@ import javax.swing.JOptionPane;
  */
 public class Buscar extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Buscar
-     */
-    public Buscar() {
+    static DefaultComboBoxModel combo;
+    public Buscar() 
+    {
         initComponents();
-        txtCarnet.requestFocus();
+        combo=new DefaultComboBoxModel();
+        ResultSet rs=Logica.consultarCiclos();
+        try
+        {
+            while(rs.next())
+            {
+              combo.addElement(rs.getString(1));
+            }
+            cmbCiclo.setModel(combo);
+        }
+        catch(Exception ex)
+        {
+            
+        }
     }
 
     /**
@@ -59,11 +73,6 @@ public class Buscar extends javax.swing.JFrame {
                 btnBuscarActionPerformed(evt);
             }
         });
-        btnBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnBuscarKeyPressed(evt);
-            }
-        });
 
         jLabel1.setText("Carnet");
 
@@ -97,17 +106,17 @@ public class Buscar extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
                     .addComponent(btnBuscar))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnCancelar)
+                    .addComponent(txtCarnet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cmbCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnCancelar))
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addComponent(cmbCiclo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -123,41 +132,32 @@ public class Buscar extends javax.swing.JFrame {
     }//GEN-LAST:event_txtCarnetKeyTyped
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        txtCarnet.setText("");
-        txtCarnet.requestFocus();
+        // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-
-        if(Validar()==true){
+        if(Validar()==true)
+        {
             
         }
         else{
-            JOptionPane.showMessageDialog(rootPane, "Dato buscado");
+            System.out.println("Dato buscado");
+            
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarKeyPressed
-        // TODO add your handling code here:
-        //Se asegura de capturar la tecla enter y descartar todas las demas
-        char cTeclaPresionada = evt.getKeyChar();
-
-        //Da click al boton elegido
-        if(cTeclaPresionada==KeyEvent.VK_ENTER){
-        btnBuscar.doClick();
-        }
-    }//GEN-LAST:event_btnBuscarKeyPressed
 
     public boolean Validar(){
         String c=txtCarnet.getText().toString();
         
-        if(c.equals("")){
+        if(c.equals(""))
+        {
             JOptionPane.showMessageDialog(rootPane, "Digite un valor porfavor ");
             txtCarnet.requestFocus();
             return true;
         }
-        else{
-            
+        else
+        {
+            Notas.BuscarNotas("2500","01-2018");
         }
         return false;
     }

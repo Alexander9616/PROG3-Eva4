@@ -5,8 +5,10 @@
  */
 package sistema1;
 
+import Controlador.Conexion;
 import Negocios.Logica;
-import java.awt.event.KeyEvent;
+import java.sql.ResultSet;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -17,18 +19,55 @@ import javax.swing.table.DefaultTableModel;
 public class Notas extends javax.swing.JFrame {
     
     Logica logica;
-    DefaultTableModel modelo;
+    static DefaultTableModel modelo;
+    DefaultComboBoxModel combo;
     public Notas() {
         initComponents();
         logica = new Logica();
         Iniciar();
         modelo=new DefaultTableModel();
+        combo=new DefaultComboBoxModel();
         String[] columnas={"Ciclo","Codigo","Materia","Nota 1","Nota 2","Nota 3","Promedio"};
         modelo.setColumnIdentifiers(columnas);
         tblDatos.setModel(modelo);
-        
+        ResultSet rs=Logica.consultarCiclos();
+        try
+        {
+            while(rs.next())
+            {
+              combo.addElement(rs.getString(1));
+            }
+            cmbCiclo.setModel(combo);
+        }
+        catch(Exception ex)
+        {
+            
+        }
     }
-
+    public static void BuscarNotas(String carnet,String ciclo)
+    {
+        Conexion conn=new Conexion();
+        String consulta="SELECT n.codCiclo as Ciclo,m.codMateria as Cod_Materia,m.nombre as Materia ";
+                consulta +=",n.nota1,n.nota2,n.nota3,n.promedio ";
+                consulta +="from tblnotas as n inner join tblmaterias as m ";
+                consulta +="on n.codMateria=m.codMateria WHERE n.carnet='"+carnet+"' and n.codCiclo= '"+ciclo+"' ";
+        ResultSet datos=null;
+        try
+        {
+            modelo.setNumRows(0);
+            datos=conn.consultaCarnet(consulta);
+            while(datos.next())
+            {
+               modelo.addRow(new Object[] {datos.getString(1),datos.getString(2),datos.getString(3),
+               datos.getString(4),datos.getString(5),datos.getString(6),datos.getString(7)});
+            }
+            
+        }
+        catch(Exception ex)
+        {
+            datos=null;
+        }
+    }
     void Iniciar()
     {
         txtCodMateria.setEnabled(false);
@@ -51,7 +90,6 @@ public class Notas extends javax.swing.JFrame {
         txtCodMateria.setEnabled(false);
         btnGuardar.setEnabled(true);
         btnBuscarMateria.setEnabled(false);
-        txtNota1.requestFocus();
     }
     
     void CarnetValidado(){
@@ -69,8 +107,6 @@ public class Notas extends javax.swing.JFrame {
         txtNombreMateria.setText("");
         txtCodMateria.setText("");
         txtCarnet.setEnabled(false);
-        btnBuscar.setEnabled(false);
-        txtCodMateria.requestFocus();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -131,11 +167,6 @@ public class Notas extends javax.swing.JFrame {
                 btnBuscarCarnetActionPerformed(evt);
             }
         });
-        btnBuscarCarnet.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnBuscarCarnetKeyPressed(evt);
-            }
-        });
 
         txtNombreEstudiante.setEditable(false);
 
@@ -165,11 +196,6 @@ public class Notas extends javax.swing.JFrame {
         btnBuscarMateria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarMateriaActionPerformed(evt);
-            }
-        });
-        btnBuscarMateria.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnBuscarMateriaKeyPressed(evt);
             }
         });
 
@@ -206,11 +232,6 @@ public class Notas extends javax.swing.JFrame {
         btnAgregarMateria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarMateriaActionPerformed(evt);
-            }
-        });
-        btnAgregarMateria.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                btnAgregarMateriaKeyPressed(evt);
             }
         });
 
@@ -359,7 +380,6 @@ public class Notas extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         Buscar buscar = new Buscar();
-        
         buscar.setVisible(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
     
@@ -405,7 +425,8 @@ public class Notas extends javax.swing.JFrame {
     private void btnBuscarCarnetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCarnetActionPerformed
         // TODO add your handling code here:
         logica.setCarnet(txtCarnet.getText());
-        if (logica.validarCarnet()) {
+        if (logica.validarCarnet())
+        {
             txtNombreEstudiante.setText(logica.getNombre());
             CarnetValidado();
             
@@ -462,36 +483,6 @@ public class Notas extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNota3KeyTyped
-
-    private void btnBuscarCarnetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarCarnetKeyPressed
-        //Se asegura de capturar la tecla enter y descartar todas las demas
-        char cTeclaPresionada = evt.getKeyChar();
-
-        //Da click al boton elegido
-        if(cTeclaPresionada==KeyEvent.VK_ENTER){
-        btnBuscarCarnet.doClick();
-        }
-    }//GEN-LAST:event_btnBuscarCarnetKeyPressed
-
-    private void btnBuscarMateriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarMateriaKeyPressed
-        //Se asegura de capturar la tecla enter y descartar todas las demas
-        char cTeclaPresionada = evt.getKeyChar();
-
-        //Da click al boton elegido
-        if(cTeclaPresionada==KeyEvent.VK_ENTER){
-        btnBuscarMateria.doClick();
-        }
-    }//GEN-LAST:event_btnBuscarMateriaKeyPressed
-
-    private void btnAgregarMateriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgregarMateriaKeyPressed
-        //Se asegura de capturar la tecla enter y descartar todas las demas
-        char cTeclaPresionada = evt.getKeyChar();
-
-        //Da click al boton elegido
-        if(cTeclaPresionada==KeyEvent.VK_ENTER){
-        btnAgregarMateria.doClick();
-        }
-    }//GEN-LAST:event_btnAgregarMateriaKeyPressed
 
     void LimpiarNotas(){
         txtNota1.setText("");
