@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 14-05-2018 a las 15:18:28
+-- Tiempo de generación: 14-05-2018 a las 17:45:26
 -- Versión del servidor: 10.1.25-MariaDB
 -- Versión de PHP: 7.1.7
 
@@ -92,11 +92,11 @@ INSERT INTO `tblmaterias` (`codMateria`, `nombre`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `tblnotasnotas`
+-- Estructura de tabla para la tabla `tblnotas`
 --
 
-DROP TABLE IF EXISTS `tblNotas`;
-CREATE TABLE `tblNotas` (
+DROP TABLE IF EXISTS `tblnotas`;
+CREATE TABLE `tblnotas` (
   `codCiclo` varchar(15) DEFAULT NULL,
   `carnet` varchar(20) DEFAULT NULL,
   `codMateria` varchar(15) DEFAULT NULL,
@@ -107,14 +107,14 @@ CREATE TABLE `tblNotas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Volcado de datos para la tabla `tblnotasnotas`
+-- Volcado de datos para la tabla `tblnotas`
 --
 
-INSERT INTO `tblNotas` (`codCiclo`, `carnet`, `codMateria`, `nota1`,`nota2`,`nota3`,`promedio`) VALUES
-('03-2018', '2500', 'etica1', 9,7,7,9),
-('03-2018', '2501', 'etica1', 10,7,9,7),
-('03-2018', '2502', 'etica1', 7.5,6,8,8),
-('03-2018', '2503', 'etica1', 8.5,7,8,7)
+INSERT INTO `tblnotas` (`codCiclo`, `carnet`, `codMateria`, `nota1`, `nota2`, `nota3`, `promedio`) VALUES
+('03-2018', '2500', 'etica1', 9, 7, 7, 9),
+('03-2018', '2501', 'etica1', 10, 7, 9, 7),
+('03-2018', '2502', 'etica1', 7.5, 6, 8, 8),
+('03-2018', '2503', 'etica1', 8.5, 7, 8, 7);
 
 --
 -- Índices para tablas volcadas
@@ -139,9 +139,9 @@ ALTER TABLE `tblmaterias`
   ADD PRIMARY KEY (`codMateria`);
 
 --
--- Indices de la tabla `tblnotasnotas`
+-- Indices de la tabla `tblnotas`
 --
-ALTER TABLE `tblNotas`
+ALTER TABLE `tblnotas`
   ADD KEY `codCiclo` (`codCiclo`),
   ADD KEY `carnet` (`carnet`),
   ADD KEY `codMateria` (`codMateria`);
@@ -151,12 +151,12 @@ ALTER TABLE `tblNotas`
 --
 
 --
--- Filtros para la tabla `tblnotasnotas`
+-- Filtros para la tabla `tblnotas`
 --
-ALTER TABLE `tblNotas`
-  ADD CONSTRAINT `tblNotas_ibfk_1` FOREIGN KEY (`codCiclo`) REFERENCES `tblciclos` (`codCiclo`),
-  ADD CONSTRAINT `tblNotas_ibfk_2` FOREIGN KEY (`carnet`) REFERENCES `tblestudiantes` (`carnet`),
-  ADD CONSTRAINT `tblNotas_ibfk_3` FOREIGN KEY (`codMateria`) REFERENCES `tblmaterias` (`codMateria`);
+ALTER TABLE `tblnotas`
+  ADD CONSTRAINT `tblnotas_ibfk_1` FOREIGN KEY (`codCiclo`) REFERENCES `tblciclos` (`codCiclo`),
+  ADD CONSTRAINT `tblnotas_ibfk_2` FOREIGN KEY (`carnet`) REFERENCES `tblestudiantes` (`carnet`),
+  ADD CONSTRAINT `tblnotas_ibfk_3` FOREIGN KEY (`codMateria`) REFERENCES `tblmaterias` (`codMateria`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
