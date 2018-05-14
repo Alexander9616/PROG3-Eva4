@@ -7,8 +7,16 @@ public class Logica {
 
     ResultSet resultado;
     
-    String carnet,nombre,codMateria,nombreMateria,nota1,nota2,nota3;
-    int ciclo;
+    String carnet,nombre,codMateria,nombreMateria,ciclo;
+    double nota1,nota2,nota3,promedio;
+
+    public double getPromedio() {
+        return promedio;
+    }
+
+    public void setPromedio(double promedio) {
+        this.promedio = promedio;
+    }
     
     public String getCarnet() {
         return carnet;
@@ -42,35 +50,35 @@ public class Logica {
         this.nombreMateria = nombreMateria;
     }
 
-    public String getNota1() {
+    public double getNota1() {
         return nota1;
     }
 
-    public void setNota1(String nota1) {
+    public void setNota1(double nota1) {
         this.nota1 = nota1;
     }
 
-    public String getNota2() {
+    public double getNota2() {
         return nota2;
     }
 
-    public void setNota2(String nota2) {
+    public void setNota2(double nota2) {
         this.nota2 = nota2;
     }
 
-    public String getNota3() {
+    public double getNota3() {
         return nota3;
     }
 
-    public void setNota3(String nota3) {
+    public void setNota3(double nota3) {
         this.nota3 = nota3;
     }
 
-    public int getCiclo() {
+    public String getCiclo() {
         return ciclo;
     }
 
-    public void setCiclo(int ciclo) {
+    public void setCiclo(String ciclo) {
         this.ciclo = ciclo;
     }
     
@@ -208,6 +216,16 @@ public class Logica {
         }
         return datos;
     }
+    
+    public boolean insertarMaterias(){        
+        String consultaSQl = "";
+        consultaSQl = "insert into tblnotas(codCiclo,carnet,codMateria,nota1,nota2,nota3,promedio) ";
+        consultaSQl += "values('"+getCiclo()+"','"+getCarnet()+"','"+getCodMateria()+"',"+getNota1()+",";
+        consultaSQl += getNota2()+","+getNota3()+","+getPromedio()+")";
+        Conexion objControlador = new Conexion();
+        return objControlador.ejecutarConsultaSql(consultaSQl);
+    }
+    
     
     
     

@@ -47,6 +47,7 @@ public class Notas extends javax.swing.JFrame {
         txtNota3.setEnabled(true);
         btnAgregarMateria.setEnabled(true);
         txtCodMateria.setEnabled(false);
+        btnGuardar.setEnabled(true);
     }
     
     void CarnetValidado(){
@@ -330,6 +331,16 @@ public class Notas extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        for (int i = 0; i < tblDatos.getRowCount(); i++) {
+            logica.setCiclo(tblDatos.getValueAt(i, 0).toString());
+            logica.setCarnet(tblDatos.getValueAt(i, 1).toString());
+            logica.setCodMateria(tblDatos.getValueAt(i, 2).toString());
+            logica.setNota1(Double.parseDouble(tblDatos.getValueAt(i, 3).toString()));
+            logica.setNota2(Double.parseDouble(tblDatos.getValueAt(i, 4).toString()));
+            logica.setNota3(Double.parseDouble(tblDatos.getValueAt(i, 5).toString()));
+            logica.setPromedio(Double.parseDouble(tblDatos.getValueAt(i, 6).toString()));
+        }
+        
         Iniciar();
     }//GEN-LAST:event_btnGuardarActionPerformed
     private void generarTabla()
