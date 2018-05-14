@@ -102,18 +102,19 @@ CREATE TABLE `tblNotas` (
   `codMateria` varchar(15) DEFAULT NULL,
   `nota1` double DEFAULT NULL,
   `nota2` double DEFAULT NULL,
-  `nota3` double DEFAULT NULL
+  `nota3` double DEFAULT NULL,
+  `promedio` double DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Volcado de datos para la tabla `tblnotasnotas`
 --
 
-INSERT INTO `tblNotas` (`codCiclo`, `carnet`, `codMateria`, `nota1`,`nota2`,`nota3`) VALUES
-('03-2018', '2500', 'etica1', 9,7,7),
-('03-2018', '2501', 'etica1', 10,7,9),
-('03-2018', '2502', 'etica1', 7.5,6,8),
-('03-2018', '2503', 'etica1', 8.5,7,8);
+INSERT INTO `tblNotas` (`codCiclo`, `carnet`, `codMateria`, `nota1`,`nota2`,`nota3`,`promedio`) VALUES
+('03-2018', '2500', 'etica1', 9,7,7,9),
+('03-2018', '2501', 'etica1', 10,7,9,7),
+('03-2018', '2502', 'etica1', 7.5,6,8,8),
+('03-2018', '2503', 'etica1', 8.5,7,8,7)
 
 --
 -- Índices para tablas volcadas

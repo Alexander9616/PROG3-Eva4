@@ -189,12 +189,25 @@ public class Logica {
         }
     }
     
-    
-    
-    
-    
-   
-    
+    public ResultSet BuscarNotas()
+    {
+        Conexion conn=new Conexion();
+        String consulta="SELECT n.codCiclo as Ciclo,m.codMateria as Cod_Materia,m.nombre as Materia ";
+                consulta +=",n.nota1,n.nota2,n.nota3,sum(n.nota1+n.nota2+n.nota3)/3 as Promedio ";
+                consulta +="from tblnotas as n inner join tblmaterias as m ";
+                consulta +="on n.codMateria=m.codMateria WHERE n.carnet='"+getCarnet()+"' and n.ciclo= '"+getCiclo()+"' ";
+        ResultSet datos=null;
+        try
+        {
+            datos=conn.consultaCarnet(consulta);
+            datos.next();
+        }
+        catch(Exception ex)
+        {
+            datos=null;
+        }
+        return datos;
+    }
     
     
     

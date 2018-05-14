@@ -7,18 +7,24 @@ package sistema1;
 
 import Negocios.Logica;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Lab2
  */
 public class Notas extends javax.swing.JFrame {
-
+    
     Logica logica;
+    DefaultTableModel modelo;
     public Notas() {
         initComponents();
         logica = new Logica();
         Iniciar();
+        modelo=new DefaultTableModel();
+        String[] columnas={"Ciclo","Codigo","Materia","Nota 1","Nota 2","Nota 3","Promedio"};
+        modelo.setColumnIdentifiers(columnas);
+        tblDatos.setModel(modelo);
     }
 
     void Iniciar()
@@ -156,6 +162,11 @@ public class Notas extends javax.swing.JFrame {
         cmbCiclo.setToolTipText("ciclo");
 
         btnAgregarMateria.setText("Agregar");
+        btnAgregarMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarMateriaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -298,14 +309,14 @@ public class Notas extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         Buscar buscar = new Buscar();
         
         buscar.setVisible(true);
     }//GEN-LAST:event_btnBuscarActionPerformed
-
+    
     private void btnBuscarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaActionPerformed
         logica.setCodMateria(txtCodMateria.getText());
         if (logica.validarMateria()) {
@@ -321,7 +332,20 @@ public class Notas extends javax.swing.JFrame {
         // TODO add your handling code here:
         Iniciar();
     }//GEN-LAST:event_btnGuardarActionPerformed
-
+    private void generarTabla()
+    {
+        modelo.setNumRows(0);
+        String ciclo,codMateria,materia;
+        double nota1,nota2,nota3,promedio;
+        ciclo=cmbCiclo.getSelectedItem().toString();
+        codMateria=txtCodMateria.getText();
+        materia=txtNombreMateria.getText();
+        nota1=Double.valueOf(txtNota1.getText());
+        nota2=Double.valueOf(txtNota2.getText());
+        nota3=Double.valueOf(txtNota3.getText());
+        promedio=((nota1*0.2)+(nota2*0.2)+(nota3*0.6));
+        modelo.addRow(new Object[]{ciclo,codMateria,materia,nota1,nota2,nota3,promedio});
+    }
     private void btnBuscarCarnetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarCarnetActionPerformed
         // TODO add your handling code here:
         logica.setCarnet(txtCarnet.getText());
@@ -337,6 +361,10 @@ public class Notas extends javax.swing.JFrame {
             txtCarnet.requestFocus();
         }
     }//GEN-LAST:event_btnBuscarCarnetActionPerformed
+
+    private void btnAgregarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMateriaActionPerformed
+            generarTabla();
+    }//GEN-LAST:event_btnAgregarMateriaActionPerformed
 
     
     /**
