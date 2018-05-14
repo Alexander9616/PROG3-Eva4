@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 public class Buscar extends javax.swing.JFrame {
 
     static DefaultComboBoxModel combo;
+    Logica logica = new Logica();
     public Buscar() 
     {
         initComponents();
@@ -133,16 +134,21 @@ public class Buscar extends javax.swing.JFrame {
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        logica.setCarnet(txtCarnet.getText());
         if(Validar()==true)
         {
-            
-        }
-        else{
-            System.out.println("Dato buscado");
-            
+            if (logica.validarCarnet()) {
+                System.out.println("Dato buscado");
+            }
+            else{
+                JOptionPane.showMessageDialog(rootPane,"El carnet no existe en el contexto");
+                txtCarnet.setText("");
+                txtCarnet.requestFocus();
+            }
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -153,13 +159,14 @@ public class Buscar extends javax.swing.JFrame {
         {
             JOptionPane.showMessageDialog(rootPane, "Digite un valor porfavor ");
             txtCarnet.requestFocus();
-            return true;
+            return false;
         }
         else
         {
             Notas.BuscarNotas("2500","01-2018");
+            
         }
-        return false;
+        return true;
     }
     /**
      * @param args the command line arguments
