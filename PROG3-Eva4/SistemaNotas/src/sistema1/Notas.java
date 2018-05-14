@@ -6,6 +6,7 @@
 package sistema1;
 
 import Negocios.Logica;
+import java.awt.event.KeyEvent;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -50,6 +51,7 @@ public class Notas extends javax.swing.JFrame {
         txtCodMateria.setEnabled(false);
         btnGuardar.setEnabled(true);
         btnBuscarMateria.setEnabled(false);
+        txtNota1.requestFocus();
     }
     
     void CarnetValidado(){
@@ -67,6 +69,8 @@ public class Notas extends javax.swing.JFrame {
         txtNombreMateria.setText("");
         txtCodMateria.setText("");
         txtCarnet.setEnabled(false);
+        btnBuscar.setEnabled(false);
+        txtCodMateria.requestFocus();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -127,6 +131,11 @@ public class Notas extends javax.swing.JFrame {
                 btnBuscarCarnetActionPerformed(evt);
             }
         });
+        btnBuscarCarnet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBuscarCarnetKeyPressed(evt);
+            }
+        });
 
         txtNombreEstudiante.setEditable(false);
 
@@ -156,6 +165,11 @@ public class Notas extends javax.swing.JFrame {
         btnBuscarMateria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarMateriaActionPerformed(evt);
+            }
+        });
+        btnBuscarMateria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnBuscarMateriaKeyPressed(evt);
             }
         });
 
@@ -192,6 +206,11 @@ public class Notas extends javax.swing.JFrame {
         btnAgregarMateria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAgregarMateriaActionPerformed(evt);
+            }
+        });
+        btnAgregarMateria.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btnAgregarMateriaKeyPressed(evt);
             }
         });
 
@@ -443,6 +462,36 @@ public class Notas extends javax.swing.JFrame {
             evt.consume();
         }
     }//GEN-LAST:event_txtNota3KeyTyped
+
+    private void btnBuscarCarnetKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarCarnetKeyPressed
+        //Se asegura de capturar la tecla enter y descartar todas las demas
+        char cTeclaPresionada = evt.getKeyChar();
+
+        //Da click al boton elegido
+        if(cTeclaPresionada==KeyEvent.VK_ENTER){
+        btnBuscarCarnet.doClick();
+        }
+    }//GEN-LAST:event_btnBuscarCarnetKeyPressed
+
+    private void btnBuscarMateriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnBuscarMateriaKeyPressed
+        //Se asegura de capturar la tecla enter y descartar todas las demas
+        char cTeclaPresionada = evt.getKeyChar();
+
+        //Da click al boton elegido
+        if(cTeclaPresionada==KeyEvent.VK_ENTER){
+        btnBuscarMateria.doClick();
+        }
+    }//GEN-LAST:event_btnBuscarMateriaKeyPressed
+
+    private void btnAgregarMateriaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnAgregarMateriaKeyPressed
+        //Se asegura de capturar la tecla enter y descartar todas las demas
+        char cTeclaPresionada = evt.getKeyChar();
+
+        //Da click al boton elegido
+        if(cTeclaPresionada==KeyEvent.VK_ENTER){
+        btnAgregarMateria.doClick();
+        }
+    }//GEN-LAST:event_btnAgregarMateriaKeyPressed
 
     void LimpiarNotas(){
         txtNota1.setText("");
