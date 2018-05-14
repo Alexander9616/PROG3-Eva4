@@ -122,6 +122,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtCarnet">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtCarnetKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnBuscarCarnet">
       <Properties>
@@ -283,10 +286,19 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNota1">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNota1KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNota3">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNota3KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="txtNota2">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtNota2KeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
           <Properties>

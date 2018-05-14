@@ -5,6 +5,8 @@
  */
 package sistema1;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Lab2
@@ -16,7 +18,6 @@ public class Buscar extends javax.swing.JFrame {
      */
     public Buscar() {
         initComponents();
-        
     }
 
     /**
@@ -44,12 +45,27 @@ public class Buscar extends javax.swing.JFrame {
                 txtCarnetActionPerformed(evt);
             }
         });
+        txtCarnet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCarnetKeyTyped(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Carnet");
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -94,6 +110,37 @@ public class Buscar extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCarnetActionPerformed
 
+    private void txtCarnetKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCarnetKeyTyped
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') evt.consume();
+    }//GEN-LAST:event_txtCarnetKeyTyped
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        if(Validar()==true){
+            
+        }
+        else{
+            System.out.println("Dato buscado");
+        }
+    }//GEN-LAST:event_btnBuscarActionPerformed
+
+    public boolean Validar(){
+        String c=txtCarnet.getText().toString();
+        
+        if(c.equals("")){
+            JOptionPane.showMessageDialog(rootPane, "Digite un valor porfavor ");
+            txtCarnet.requestFocus();
+            return true;
+        }
+        else{
+            
+        }
+        return false;
+    }
     /**
      * @param args the command line arguments
      */

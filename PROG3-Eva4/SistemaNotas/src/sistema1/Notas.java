@@ -25,6 +25,7 @@ public class Notas extends javax.swing.JFrame {
         String[] columnas={"Ciclo","Codigo","Materia","Nota 1","Nota 2","Nota 3","Promedio"};
         modelo.setColumnIdentifiers(columnas);
         tblDatos.setModel(modelo);
+        
     }
 
     void Iniciar()
@@ -48,6 +49,7 @@ public class Notas extends javax.swing.JFrame {
         btnAgregarMateria.setEnabled(true);
         txtCodMateria.setEnabled(false);
         btnGuardar.setEnabled(true);
+        btnBuscarMateria.setEnabled(false);
     }
     
     void CarnetValidado(){
@@ -113,6 +115,12 @@ public class Notas extends javax.swing.JFrame {
 
         jLabel1.setText("Carnet");
 
+        txtCarnet.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtCarnetKeyTyped(evt);
+            }
+        });
+
         btnBuscarCarnet.setText("Buscar");
         btnBuscarCarnet.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,6 +160,24 @@ public class Notas extends javax.swing.JFrame {
         });
 
         jLabel4.setText("Nombre");
+
+        txtNota1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNota1KeyTyped(evt);
+            }
+        });
+
+        txtNota3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNota3KeyTyped(evt);
+            }
+        });
+
+        txtNota2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNota2KeyTyped(evt);
+            }
+        });
 
         jLabel5.setText("Nota 1 - 20%");
 
@@ -374,9 +400,84 @@ public class Notas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBuscarCarnetActionPerformed
 
     private void btnAgregarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMateriaActionPerformed
+        if(Validar()==true){
+            
+        }
+        else
+        {
             generarTabla();
+            LimpiarNotas();
+        }
+      
     }//GEN-LAST:event_btnAgregarMateriaActionPerformed
 
+    private void txtCarnetKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCarnetKeyTyped
+
+        char c = evt.getKeyChar();
+        if (c<'0' || c>'9') evt.consume();
+    }//GEN-LAST:event_txtCarnetKeyTyped
+
+    private void txtNota1KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNota1KeyTyped
+        if(!Character.isDigit(evt.getKeyChar()) && evt.getKeyChar() != '.'){
+            evt.consume();
+        }
+        if (evt.getKeyChar() == '.' && txtNota1.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNota1KeyTyped
+
+    private void txtNota2KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNota2KeyTyped
+        if(!Character.isDigit(evt.getKeyChar()) && evt.getKeyChar() != '.'){
+            evt.consume();
+        }
+        if (evt.getKeyChar() == '.' && txtNota2.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNota2KeyTyped
+
+    private void txtNota3KeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNota3KeyTyped
+        if(!Character.isDigit(evt.getKeyChar()) && evt.getKeyChar() != '.'){
+            evt.consume();
+        }
+        if (evt.getKeyChar() == '.' && txtNota3.getText().contains(".")) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNota3KeyTyped
+
+    void LimpiarNotas(){
+        txtNota1.setText("");
+        txtNota2.setText("");
+        txtNota3.setText("");
+    }
+    
+    public boolean Validar(){
+        String n1,n2,n3;
+        n1=txtNota1.getText().toString();
+        n2=txtNota2.getText().toString();
+        n3=txtNota3.getText().toString();
+        if(n1.equals(""))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Requiere primera nota");
+            txtNota1.requestFocus();
+            return true;
+        }
+        else if (n2.equals(""))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Requiere segunda nota");
+            txtNota2.requestFocus();
+            return true;
+        }
+        else if(n3.equals(""))
+        {
+            JOptionPane.showMessageDialog(rootPane, "Requiere tercera nota");
+            txtNota3.requestFocus();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     
     /**
      * @param args the command line arguments
