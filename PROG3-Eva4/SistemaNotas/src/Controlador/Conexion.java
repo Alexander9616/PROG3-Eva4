@@ -46,7 +46,7 @@ public class Conexion {
         }                
         return estado;
     }
-    public ResultSet consultaCarnet(String consultaSql){
+    public ResultSet consultarCarnet(String consultaSql){
         ResultSet objResultado = null;
         try {
             abrirConexion();

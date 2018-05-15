@@ -22,6 +22,7 @@ public class Notas extends javax.swing.JFrame {
     Logica logica;
     static DefaultTableModel modelo;
     DefaultComboBoxModel combo;
+    //public static String carnetPublico;
     public Notas() {
         initComponents();
         logica = new Logica();
@@ -45,6 +46,7 @@ public class Notas extends javax.swing.JFrame {
         {
             
         }
+        this.setLocationRelativeTo(null);
     }
     public static void BuscarNotas(String carnet,String ciclo)
     {
@@ -57,7 +59,7 @@ public class Notas extends javax.swing.JFrame {
         try
         {
             modelo.setNumRows(0);
-            datos=conn.consultaCarnet(consulta);
+            datos=conn.consultarCarnet(consulta);
             while(datos.next())
             {
                modelo.addRow(new Object[] {datos.getString(1),datos.getString(2),datos.getString(3),
@@ -68,6 +70,35 @@ public class Notas extends javax.swing.JFrame {
         catch(Exception ex)
         {
             datos=null;
+        }
+    }
+    
+    public void BuscaRegistro(String carnetPublico, String ciclo)
+    {
+        //String carnet = carnetPublico;
+        Iniciar();
+        btnCancelar.setEnabled(true);
+        modelo=new DefaultTableModel();
+        modelo.setNumRows(0);
+        String[] columnas={"Ciclo","Codigo","Materia","Nota 1","Nota 2","Nota 3","Promedio"};
+        modelo.setColumnIdentifiers(columnas);
+        if (logica.numRegistrosBuscar(carnetPublico,ciclo) > 0) {
+            ResultSet rs = logica.consultarRegistros(carnetPublico,ciclo);
+            try{
+                while(rs.next()){
+                    modelo.addRow(new Object[] {rs.getString("codCiclo"),rs.getString("codMateria"),rs.getString("nombreMateria"),rs.getString("nota1"),rs.getString("nota2"),rs.getString("nota3"),rs.getString("promedio")});
+                }
+                tblDatos.setModel(modelo);
+                tblDatos.setVisible(true);
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+                JOptionPane.showMessageDialog(rootPane, "Ocurrió un error mostrando los datos");
+            }
+            
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane, "No tiene registros para el ciclo "+ciclo);
         }
     }
     
@@ -99,6 +130,7 @@ public class Notas extends javax.swing.JFrame {
         btnBuscarCarnet.setEnabled(true);
         txtCarnet.requestFocus();
         btnCancelar.setEnabled(false);
+        btnBuscarCarnet.setEnabled(true);
     }
     
     void MateriaValidada()
@@ -146,6 +178,7 @@ public class Notas extends javax.swing.JFrame {
         txtCodMateria.setText("");
         txtCarnet.setEnabled(false);
         txtNombreMateria.setText("");
+        btnBuscarCarnet.setEnabled(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -437,6 +470,7 @@ public class Notas extends javax.swing.JFrame {
         // TODO add your handling code here:
         Buscar buscar = new Buscar();
         buscar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_btnBuscarActionPerformed
     
     private void btnBuscarMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMateriaActionPerformed
@@ -489,6 +523,7 @@ public class Notas extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(rootPane, "Registro Insertado Exitosamente");
             modelo.setNumRows(0);
             Iniciar();
+            cmbCiclo.setSelectedIndex(0);
             
         }
         catch(Exception e){
@@ -581,6 +616,7 @@ public class Notas extends javax.swing.JFrame {
         Iniciar();
         modelo.setNumRows(0);
         txtNombreMateria.setText("");
+        cmbCiclo.setSelectedIndex(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     void LimpiarNotas(){

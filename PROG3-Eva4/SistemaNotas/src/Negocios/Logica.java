@@ -2,6 +2,7 @@ package Negocios;
 
 import Controlador.Conexion;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Logica {
@@ -99,7 +100,7 @@ public class Logica {
         boolean estado = false;
         try {
             Conexion objConexion = new Conexion();
-            ResultSet objResultado = objConexion.consultaCarnet(consultaSql);
+            ResultSet objResultado = objConexion.consultarCarnet(consultaSql);
             if(objResultado.next()){
                 setNombre(objResultado.getString(1).toString());
                 setCarnet(objResultado.getString(1).toString());
@@ -117,7 +118,7 @@ public class Logica {
         
         try {
             Conexion objConexion = new Conexion();
-            ResultSet objResultado = objConexion.consultaCarnet(consultaSql);
+            ResultSet objResultado = objConexion.consultarCarnet(consultaSql);
             if(objResultado.next()){
                 setNombre(objResultado.getString(1).toString());
                 return getNombre();
@@ -129,7 +130,21 @@ public class Logica {
     }
      
      
-     
+     public int numRegistrosBuscar(String carnet,String ciclo)
+     {
+         String sql = "select count(*) from tblNotas where carnet = '"+carnet+"' and codCiclo = '"+ciclo+"'";
+         try {
+            Conexion objConexion = new Conexion();
+            ResultSet objResultado = objConexion.consultarCarnet(sql);
+            if(objResultado.next()){
+                setNombre(objResultado.getString(1).toString());
+                return Integer.parseInt(objResultado.getString(1).toString());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return -1;
+     }
      
      public boolean validarCarnet()
      {        
@@ -138,7 +153,7 @@ public class Logica {
         try 
         {
             Conexion objConexion = new Conexion();
-            ResultSet objResultado = objConexion.consultaCarnet(consultaSql);
+            ResultSet objResultado = objConexion.consultarCarnet(consultaSql);
             if(objResultado.next())
             {
                 estado = true;
@@ -155,7 +170,7 @@ public class Logica {
         
         try {
             Conexion objConexion = new Conexion();
-            ResultSet objResultado = objConexion.consultaCarnet(consultaSql);
+            ResultSet objResultado = objConexion.consultarCarnet(consultaSql);
             if(objResultado.next()){
                 setNombre(objResultado.getString(1).toString());
                 return getNombre();
@@ -209,7 +224,7 @@ public class Logica {
         ResultSet datos=null;
         try
         {
-            datos=conn.consultaCarnet(consulta);
+            datos=conn.consultarCarnet(consulta);
             
         }
         catch(Exception ex)
@@ -235,7 +250,7 @@ public class Logica {
         ResultSet rs=null;
        try
        {
-            rs=con.consultaCarnet(consulta);
+            rs=con.consultarCarnet(consulta);
        }
        catch(Exception ex)
        {
@@ -244,6 +259,21 @@ public class Logica {
         return rs;
     }
     
+    public ResultSet consultarRegistros(String carnet, String ciclo)
+    {
+        Conexion con=new Conexion();
+        String consulta= "select * from tblNotas where carnet = '"+carnet+"' and codCiclo = '"+ciclo+"'";
+        ResultSet rs=null;
+       try
+       {
+            rs=con.consultarCarnet(consulta);
+       }
+       catch(Exception ex)
+       {
+           System.out.println(ex.getMessage());
+       }
+        return rs;
+    }
     
     
    /* public String verClave(String usuario){        

@@ -18,6 +18,7 @@ public class Buscar extends javax.swing.JFrame {
 
     static DefaultComboBoxModel combo;
     Logica logica = new Logica();
+    public static String carnet1;
     public Buscar() 
     {
         initComponents();
@@ -35,6 +36,7 @@ public class Buscar extends javax.swing.JFrame {
         {
             
         }
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -143,6 +145,12 @@ public class Buscar extends javax.swing.JFrame {
         {
             if (logica.validarCarnet()) {
                 System.out.println("Dato buscado");
+                carnet1 = txtCarnet.getText().trim();
+                String ciclo = cmbCiclo.getSelectedItem().toString();
+                Notas notas = new Notas();
+                notas.BuscaRegistro(carnet1,ciclo);
+                notas.setVisible(true);
+                this.setVisible(false);
             }
             else{
                 JOptionPane.showMessageDialog(rootPane,"El carnet no existe en el contexto");
